@@ -1,1 +1,14 @@
-Hello
+{% extends '_base.html' %}
+
+
+{% block page_title %}
+    Home
+{% endblock page_title %}
+    
+
+{% block page_content %}
+    {% for product in products %}
+    <a href="{{ product.get_absolute_url }}"><p>{{ product.title }}</p></a>
+{% endfor %}{% endblock page_content %}
+    
+    
