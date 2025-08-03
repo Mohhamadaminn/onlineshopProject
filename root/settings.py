@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     'allauth.account', 
 
     'accounts',
-    'pages',    # same with 'pages.apps.PagesConfig'
-    'products.apps.ProductsConfig'   # same with 'products'
+    'pages',    
+    'products.apps.ProductsConfig'   
 ]
 
 # allauth
@@ -106,8 +106,14 @@ WSGI_APPLICATION = 'root.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
