@@ -37,10 +37,14 @@ class Comment(models.Model):
     points = models.CharField(max_length=10, choices=PRODUCT_POINTS)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['date_modified']
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.author)
+    
+    def get_absolute_url(self):
+        return reverse("product_detail", args=[self.product.id])
+    
