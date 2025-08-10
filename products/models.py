@@ -21,6 +21,10 @@ class Product(models.Model):
         return reverse("product_detail", args=[self.pk])
 
 
+class ActiveCustomManager(models.Manager):
+    def get_queryset(self):
+        return super(ActiveCustomManager, self).get_queryset().filter(active=True)
+
 
 class Comment(models.Model):
     PRODUCT_POINTS = [
@@ -33,11 +37,17 @@ class Comment(models.Model):
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments')
-    body = models.TextField()
-    points = models.CharField(max_length=10, choices=PRODUCT_POINTS)
+    body = models.TextField(verbose_name='Comment Text')
+    points = models.CharField(max_length=10,
+                               choices=PRODUCT_POINTS,
+                               verbose_name='what is your score?')
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+
+    # Manager
+    objects = models.Manager()
+    active_comments_manager = ActiveCustomManager()
 
     class Meta:
         ordering = ['date_modified']
@@ -46,5 +56,6 @@ class Comment(models.Model):
         return 'Comment {} by {}'.format(self.body, self.author)
     
     def get_absolute_url(self):
-        return reverse("product_detail", args=[self.product.id])
+        return reverse("product_detail", kwargs={"pk": self.product.id})
+    
     
