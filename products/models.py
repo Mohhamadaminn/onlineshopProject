@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.shortcuts import reverse
-
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
 
@@ -28,19 +28,19 @@ class ActiveCustomManager(models.Manager):
 
 class Comment(models.Model):
     PRODUCT_POINTS = [
-        ('1', 'Very Bad!'),
-        ('2', 'Bad'),
-        ('3', 'Not Bad'),
-        ('4', 'Good'),
-        ('5', 'Perfect!'),
+        ('1', _('Very Bad!')),
+        ('2', _('Bad')),
+        ('3', _('Not Bad')),
+        ('4', _('Good')),
+        ('5', _('Perfect!')),
     ]
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments')
-    body = models.TextField(verbose_name='Comment Text')
+    body = models.TextField(verbose_name=_('Comment Text'))
     points = models.CharField(max_length=10,
                                choices=PRODUCT_POINTS,
-                               verbose_name='what is your score?')
+                               verbose_name=_('what is your score?'))
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
